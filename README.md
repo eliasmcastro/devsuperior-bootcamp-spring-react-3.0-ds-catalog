@@ -17,7 +17,7 @@
 <p align="center">Back-end</p>
 
 <p align="center">
-  EM BREVE
+  <img alt="Back-end" src=".github/backend.png" width="90%">
 </p>
 
 ## Como executar o projeto
@@ -56,11 +56,26 @@ Se for executar pelo IntelliJ IDEA
 Se for executar com o Maven
 
 - Entrar na pasta back-end (pelo cmd/terminal)
-- Executar o comando abaixo para iniciar o back-end da aplicação
+- Executar os comandos abaixo para iniciar o back-end da aplicação
+
+```bash
+mvn clean install -U
+```
 
 ```bash
 mvn spring-boot:run
 ```
+
+**3. Banco de Dados H2**
+
+- O projeto está configurado para utilizar o banco de dados H2
+  - Para acessá-lo
+    - http://localhost:8080/h2-console
+    - JSCB URL: jdbc:h2:mem:testdb
+    - User Name: sa
+    - Password:
+- Ao executar a aplicação automaticamente as tabelas são criadas
+- Alguns dados já são populados através do arquivo (src/main/resources/data.sql) 
 
 O aplicativo começará a ser executado em http://localhost:8080
 
