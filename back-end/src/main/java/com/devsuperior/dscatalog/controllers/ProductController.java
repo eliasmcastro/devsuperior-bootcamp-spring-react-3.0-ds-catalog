@@ -25,10 +25,10 @@ public class ProductController {
 
 	@Autowired
 	private ProductService service;
-	
+
 	@GetMapping
 	public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-		Page<ProductDTO> list = service.findAllPaged(pageable);		
+		Page<ProductDTO> list = service.findAllPaged(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
@@ -37,12 +37,11 @@ public class ProductController {
 		ProductDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
 		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 
@@ -57,4 +56,4 @@ public class ProductController {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-} 
+}

@@ -164,8 +164,84 @@ _Dica: utilizar o Insomnia para testar as rotas_
     - [Link](https://www.figma.com/file/1n0aifcfatWv9ozp16XCrq/DSCatalog-Bootcamp)
   - Modelo conceitual do DSCatalog
     - [Link](.github/modelo_dados.png)
-
 - Testes automatizados (JUnit, Mockito, MockBean)
+  - Competências
+    - Fundamentos de testes automatizados
+      - Tipos de testes
+        - Unitário: Teste feito pelo desenvolvedor, responsável por validar o comportamento de unidades funcionais de código. Nesse contexto, entende-se como unidade funcional qualquer porção de código que através de algum estímulo seja capaz de gerar um comportamento esperado (na prática: métodos de uma classe). Um teste unitário não pode acessar outros componentes ou recursos externos (arquivos, bd, rede, web services, etc.).
+        - Integração: Teste focado em verificar se a comunicação entre componentes / módulos da aplicação, e também recursos externos, estão interagindo entre si corretamente.
+        - Funcional: É um teste do ponto de vista do usuário, se uma determinada funcionalidade está executando corretamente, produzindo o resultado ou comportamento desejado pelo usuário.
+      - Benefícios
+        - Detectar facilmente se mudanças violaram as regras
+        - É uma forma de documentação (comportamento e entradas/saídas esperadas)
+        - Redução de custos em manutenções, especialmente em fases avançadas
+        - Melhora design da solução, pois a aplicação testável precisa ser bem delineada
+      - TDD - Test Driven Development
+        - É um método de desenvolver software. Consiste em um desenvolvimento guiado pelos testes.
+        - Princípios / vantagens:
+          - Foco nos requisitos
+          - Tende a melhorar o design do código, pois o código deverá ser testável
+          - Incrementos no projeto têm menos chance de quebrar a aplicação
+        - Processo básico:
+          - Escreva o teste como esperado (naturalmente que ele ainda estará falhando)
+          - Implemente o código necessário para que o teste passe
+          - Refatore o código conforme necessidade
+      - Boas práticas e padrões
+        - Nomenclatura de um teste
+          - `<AÇÃO> should <EFEITO> [when <CENÁRIO>]`
+        - Padrão AAA
+          - Arrange: instancie os objetos necessários
+          - Act: execute as ações necessárias
+          - Assert: declare o que deveria acontecer (resultado esperado)
+        - Princípio da inversão de dependência (SOLID)
+          - Se uma classe A depende de uma instância da classe B, não tem como testar a classe A isoladamente. Na verdade nem seria um teste unitário.
+          - A inversão de controle ajuda na testabilidade, e garante o isolamento da unidade a ser testada.
+        - Independência / isolamento
+          - Um teste não pode depender de outros testes, nem da ordem de execução
+        - Cenário único
+          - O teste deve ter uma lógica simples, linear
+          - O teste deve testar apenas um cenário
+          - Não use condicionais e loops
+        - Previsibilidade
+          - O resultado de um teste deve ser sempre o mesmo para os mesmos dados
+          - Não faça o resultado depender de coisas que variam, tais como timestamp atual e valores aleatórios.
+    - JUnit (Básico (vanilla), Spring Boot, Repositories, Services, Resources (web), Integração)
+      - Visão geral
+        - https://junit.org/junit5
+        - O primeiro passo é criar uma classe de testes
+        - A classe pode conter um ou mais métodos com a annotation `@Test`
+        - Um método `@Test` deve ser void
+        - O objetivo é que todos métodos `@Test` passem sem falhas
+        - O que vai definir se um método `@Test` passa ou não são as “assertions” deste método
+        - Se um ou mais falhas ocorrerem, estas são mostradas depois da execução do teste
+      - Annotations usadas nas classes de teste
+        - `@SpringBootTest`: Carrega o contexto da aplicação (teste de integração)
+        - `@SpringBootTest` | `@AutoConfigureMockMvc`: Carrega o contexto da aplicação (teste de integração & web) | Trata as requisições sem subir o servidor
+        - `@WebMvcTest(Classe.class)`: Carrega o contexto, porém somente da camada web (teste de unidade: controlador)
+        - `@ExtendWith(SpringExtension.class)`: Não carrega o contexto, mas permite usar os recursos do Spring com JUnit (teste de unidade: service/component)
+        - `@DataJpaTest`: Carrega somente os componentes relacionados ao Spring Data JPA. Cada teste é transacional e dá rollback ao final. (teste de unidade: repository)
+      - Fixtures (É uma forma de organizar melhor o código dos testes e evitar repetições)
+        - `@BeforeAll`: Preparação antes de todos testes da classe (método estático)
+        - `@AfterAll`: Preparação depois de todos testes da classe (método estático)
+        - `@BeforeEach`: Preparação antes de cada teste da classe 
+        - `@AfterEach`: Preparação depois de cada teste da classe 
+    - Mockito & MockBean (@Mock, @InjectMocks, Mockito.when / thenReturn / doNothing / doThrow, ArgumentMatchers, Mockito.verify, @MockBean, @MockMvc)
+      
+      - Usar quando a classe de teste não carrega o contexto da aplicação. É mais rápido e enxuto. `@ExtendWith`
+
+        ```java
+        @Mock
+        private MyComp myComp;
+        //ou
+        myComp = Mockito.mock(MyComp.class);
+        ```
+      
+      - Usar quando a classe de teste carrega o contexto da aplicação e precisa mockar algum bean do sistema. `@WebMvcTest` | `@SpringBootTest`
+      
+        ```java
+        @MockBean
+        private MyComp myComp;
+        ```
 - Validação e segurança (Bean Validation, Spring Security, JWT, OAuth2)
 - Domínio e ORM, autorizações (Modelo de domínio, JPA, SQL seed)
 - Consultas ao banco de dados (Spring Data JPA, JPQL, SQL)

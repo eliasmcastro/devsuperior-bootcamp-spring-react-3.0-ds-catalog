@@ -25,10 +25,10 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryService service;
-	
+
 	@GetMapping
 	public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable) {
-		Page<CategoryDTO> list = service.findAllPaged(pageable);		
+		Page<CategoryDTO> list = service.findAllPaged(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
@@ -37,12 +37,11 @@ public class CategoryController {
 		CategoryDTO dto = service.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
 		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 
@@ -57,4 +56,4 @@ public class CategoryController {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-} 
+}
